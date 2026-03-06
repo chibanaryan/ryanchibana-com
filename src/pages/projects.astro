@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import D3Chart from '../components/visualizations/D3Chart.svelte';
+import ThreeScene from '../components/visualizations/ThreeScene.svelte';
+---
+
+<BaseLayout title="Projects — Ryan Chibana" description="Projects and experiments by Ryan Chibana">
+  <h1>Projects</h1>
+
+  <section x-data="{ filter: 'all' }" class="projects-section">
+    <div class="filters">
+      <button
+        @click="filter = 'all'"
+        :class="filter === 'all' ? 'active' : ''"
+      >All</button>
+      <button
+        @click="filter = 'web'"
+        :class="filter === 'web' ? 'active' : ''"
+      >Web</button>
+      <button
+        @click="filter = 'data'"
+        :class="filter === 'data' ? 'active' : ''"
+      >Data</button>
+    </div>
+
+    <ul class="project-list">
+      <template x-for="project in [
+        { name: 'This Site', category: 'web', desc: 'Astro + D3 + Three.js personal site with island architecture.' },
+        { name: 'Data Dashboard', category: 'data', desc: 'Interactive D3.js dashboard for exploring datasets.' },
+        { name: 'WebGL Experiments', category: 'web', desc: 'Creative coding experiments with Three.js and shaders.' },
+        { name: 'CSV Explorer', category: 'data', desc: 'Upload and visualize CSV files in the browser.' }
+      ].filter(p => filter === 'all' || p.category === filter)" :key="project.name">
+        <li class="project-card">
+          <h3 x-text="project.name"></h3>
+          <p x-text="project.desc"></p>
+          <span class="category" x-text="project.category"></span>
+        </li>
+      </template>
+    </ul>
+  </section>
+
+  <section class="viz-demos">
+    <h2>Visualization Demos</h2>
+
+    <div class="demo">
+      <h3>D3.js Bar Chart</h3>
+      <p>Lazy-loaded with <code>client:visible</code> — only hydrates when scrolled into view.</p>
+      <D3Chart client:visible />
+    </div>
+
+    <div class="demo">
+      <h3>Three.js Scene</h3>
+      <p>WebGL context created on demand. Fallback shown until loaded.</p>
+      <ThreeScene client:visible />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .projects-section {
+    margin-bottom: 3rem;
+  }
+
+  .filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .filters button {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    transition: all 0.15s ease;
+  }
+
+  .filters button:hover,
+  .filters button.active {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+  }
+
+  .project-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .project-card {
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+  }
+
+  .project-card h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .project-card p {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .category {
+    font-size: 0.75rem;
+    background: #e8f0fe;
+    color: var(--color-accent);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+  }
+
+  .viz-demos h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .demo {
+    margin-bottom: 2.5rem;
+  }
+
+  .demo h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .demo p {
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+</style>
