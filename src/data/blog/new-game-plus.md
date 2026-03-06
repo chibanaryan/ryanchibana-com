@@ -27,4 +27,4 @@ I play piano, guitar, and bass. I've played keys in a couple indie bands and hav
 
 ## This site
 
-Built with Astro, Svelte, D3.js, and Three.js. Hosted on Cloudflare Pages. I wanted a place to write about what I'm working on and experiment with interactive data visualization. More to come.
+Built with Astro and hosted on Cloudflare Pages. I wanted a place to write about what I'm working on. More to come.
