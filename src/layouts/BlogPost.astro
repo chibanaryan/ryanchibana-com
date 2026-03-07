@@ -1,5 +1,12 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 interface Props {
   title: string;
@@ -7,47 +14,60 @@ interface Props {
   pubDate: Date;
   updatedDate?: Date;
   tags?: string[];
+  headings?: Heading[];
 }
 
-const { title, description, pubDate, updatedDate, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, tags = [], headings = [] } = Astro.props;
 const dateStr = pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
+const showToc = headings.filter((h) => h.depth <= 3).length > 2;
 ---
 
 <BaseLayout title={title} description={description}>
-  <article>
-    <header class="post-header">
-      <h1>{title}</h1>
-      <div class="meta">
-        <time datetime={pubDate.toISOString()}>{dateStr}</time>
-        {updatedDate && (
-          <span>
-            (Updated: {updatedDate.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })})
-          </span>
-        )}
-      </div>
-      {tags.length > 0 && (
-        <div class="tags">
-          {tags.map((tag) => (
-            <span class="tag">{tag}</span>
-          ))}
+  <div class:list={['post-layout', { 'has-toc': showToc }]}>
+    <article>
+      <header class="post-header">
+        <h1>{title}</h1>
+        <div class="meta">
+          <time datetime={pubDate.toISOString()}>{dateStr}</time>
+          {updatedDate && (
+            <span>
+              (Updated: {updatedDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })})
+            </span>
+          )}
         </div>
-      )}
-    </header>
-    <div class="prose">
-      <slot />
-    </div>
-  </article>
+        {tags.length > 0 && (
+          <div class="tags">
+            {tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+      <div class="prose">
+        <slot />
+      </div>
+    </article>
+    {showToc && (
+      <aside class="toc-sidebar">
+        <TableOfContents headings={headings} />
+      </aside>
+    )}
+  </div>
 </BaseLayout>
 
 <style>
+  .post-layout {
+    position: relative;
+  }
+
   .post-header {
     margin-bottom: 2rem;
   }
@@ -78,5 +98,26 @@ const dateStr = pubDate.toLocaleDateString('en-US', {
 
   .prose :global(a) {
     text-decoration: underline;
+  }
+
+  .toc-sidebar {
+    display: none;
+  }
+
+  @media (min-width: 80rem) {
+    .post-layout.has-toc {
+      display: grid;
+      grid-template-columns: minmax(0, 48rem) 14rem;
+      gap: 3rem;
+    }
+
+    :global(main:has(.has-toc)) {
+      max-width: calc(48rem + 14rem + 3rem);
+    }
+
+    .toc-sidebar {
+      display: block;
+      padding-top: 0.5rem;
+    }
   }
 </style>
