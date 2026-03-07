@@ -200,21 +200,146 @@ Claude: [calls search_papers: "gut microbiome interventions
 
 No copy-pasting, no switching tabs. Claude searches the corpus, reads the abstracts, and pulls out findings with PMIDs I can check. When I want to dig deeper into a paper, I ask and it calls `get_paper`. It's the most useful part of the project for my own day-to-day use.
 
+## Making it better: fine-tuning, re-ranking, and inference optimization
+
+With a working search engine and an evaluation harness, the next question is: how far can you push the quality without changing the underlying architecture?
+
+### Contrastive fine-tuning
+
+MiniLM is a general-purpose model. It's never seen biomedical text during training. Fine-tuning on PubMed abstracts could close the gap on domain-specific queries without hurting the ones that already work well.
+
+I used contrastive learning with `MultipleNegativesRankingLoss` from sentence-transformers. The idea: given a pair of papers that are about the same topic, train the model to produce similar embeddings for them. Every other paper in the batch acts as an implicit negative. You don't need to explicitly mine hard negatives; the batch provides them for free.
+
+The training data comes from MeSH term co-occurrence. Papers sharing at least two topic-relevant MeSH terms form positive pairs. I filtered out generic MeSH terms (demographics like "Humans" and "Female," study design terms like "Retrospective Studies," geographic terms like "United States") that don't indicate topical similarity. That gave me ~100K pairs from the 40K corpus.
+
+One epoch, batch size 64, about 20 minutes on Apple Silicon.
+
+| Query | Base | Fine-tuned | Delta |
+|-------|------|-----------|-------|
+| Creatine + muscle recovery | 1.00 | 1.00 | 0.00 |
+| Quitting alcohol | 0.59 | 0.59 | 0.00 |
+| HIIT benefits | 0.59 | 0.72 | +0.13 |
+| Vegetarian protein | 0.97 | 0.97 | 0.00 |
+| AI ethics in healthcare | 0.92 | 0.92 | 0.00 |
+| Sleep deprivation + cognition | 0.68 | 0.86 | +0.19 |
+| Gut microbiome + mental health | 0.87 | 0.87 | 0.00 |
+| Resistance training for elderly | 1.00 | 1.00 | 0.00 |
+| **Mean NDCG@5** | **0.83** | **0.86** | **+0.04** |
+
+The gains are concentrated on the previously weakest queries. Sleep deprivation jumped from 0.68 to 0.86, HIIT from 0.59 to 0.72. The already-strong queries held steady. This is the best-case outcome: lift the floor without lowering the ceiling.
+
+The MeSH pairing strategy matters more than training scale. Using topic-relevant MeSH terms (filtering out demographics, study design, geography) gives you pairs that actually share subject matter. Training on "both papers are about humans" would teach the model nothing.
+
+### Cross-encoder re-ranking
+
+Bi-encoders encode query and document independently. This is what makes them fast (pre-compute all document embeddings, then just encode the query at search time), but it means they can't model fine-grained interactions between query and document tokens. A cross-encoder takes the (query, document) pair as a single input and scores it jointly. More accurate, but you have to run it on every candidate.
+
+The standard approach is a two-stage pipeline: bi-encoder retrieves a broad candidate set (top 50), cross-encoder re-ranks to the final result (top 10). The bi-encoder is the recall stage, the cross-encoder is the precision stage.
+
+I fine-tuned `cross-encoder/ms-marco-MiniLM-L-6-v2` on ~20K (query, document, relevance_score) triples. Each MeSH term becomes a natural language query, papers with that term are positives (graded by how many additional MeSH terms they share), and papers without it are negatives.
+
+| Query | Bi-encoder | Re-ranked | Delta |
+|-------|-----------|-----------|-------|
+| Creatine + muscle recovery | 1.00 | 1.00 | 0.00 |
+| Quitting alcohol | 0.59 | 0.74 | +0.15 |
+| HIIT benefits | 0.59 | 1.00 | +0.41 |
+| Vegetarian protein | 0.97 | 0.97 | 0.00 |
+| AI ethics in healthcare | 0.92 | 0.92 | 0.00 |
+| Sleep deprivation + cognition | 0.68 | 0.87 | +0.20 |
+| Gut microbiome + mental health | 0.87 | 0.87 | 0.00 |
+| Resistance training for elderly | 1.00 | 1.00 | 0.00 |
+| **Mean NDCG@5** | **0.83** | **0.92** | **+0.09** |
+
+HIIT went from 0.59 to a perfect 1.00. The cross-encoder is particularly good at sorting through borderline cases where the bi-encoder can't distinguish between "this paper mentions HIIT in passing" and "this paper is a systematic review of HIIT outcomes."
+
+The cost is ~272ms of additional latency per query. For a search API that's acceptable. For autocomplete it wouldn't be.
+
+### ONNX export and INT8 quantization
+
+sentence-transformers loads the full PyTorch runtime for inference. For serving, that's unnecessary overhead. ONNX Runtime provides a lighter inference path, and INT8 quantization shrinks the model further by representing weights as 8-bit integers instead of 32-bit floats.
+
+The export requires reimplementing mean pooling by hand, since sentence-transformers' pooling layer isn't part of the base transformer model that gets exported to ONNX. You export the transformer, then do the attention-mask-weighted mean and L2 normalization in numpy.
+
+| Model | Mean latency | P95 latency |
+|-------|-------------|-------------|
+| PyTorch | 4.41ms | 5.12ms |
+| ONNX FP32 | 1.46ms | 1.68ms |
+| ONNX INT8 | 0.84ms | 0.97ms |
+
+INT8 is 5.3x faster than PyTorch with only 0.017 NDCG@5 degradation. ONNX FP32 is lossless, meaning the pooling reimplementation is correct and the format conversion introduces no quality loss. The INT8 degradation is negligible.
+
+### Knowledge distillation
+
+PubMedBERT lost the retrieval comparison, but it still knows things about biomedical language that MiniLM doesn't. Distillation tries to capture that knowledge without the cost of PubMedBERT's larger architecture.
+
+The idea: for each batch of paper texts, compute pairwise similarity matrices from both models. The teacher's (PubMedBERT) similarity distribution, after softmax, represents its view of which documents are related to which. Train the student (MiniLM) to reproduce that distribution via KL divergence. The student learns to rank documents the way the teacher would, but in 384 dimensions instead of 768.
+
+Three epochs, batch size 32, temperature 2.0. About an hour on Apple Silicon.
+
+| Query | Base | Distilled | Delta |
+|-------|------|-----------|-------|
+| Creatine + muscle recovery | 1.00 | 1.00 | 0.00 |
+| Quitting alcohol | 0.59 | 0.55 | -0.04 |
+| HIIT benefits | 0.59 | 0.78 | +0.19 |
+| Vegetarian protein | 0.97 | 0.92 | -0.05 |
+| AI ethics in healthcare | 0.92 | 1.00 | +0.08 |
+| Sleep deprivation + cognition | 0.68 | 0.36 | -0.32 |
+| Gut microbiome + mental health | 0.87 | 0.89 | +0.02 |
+| Resistance training for elderly | 1.00 | 1.00 | 0.00 |
+| **Mean NDCG@5** | **0.83** | **0.81** | **-0.02** |
+
+A slight net regression. The distilled model picked up some of PubMedBERT's strengths (HIIT +0.19, AI ethics to perfect 1.00) but lost ground on other queries, particularly sleep deprivation (-0.32). The similarity-based KL divergence loss is a blunt instrument: it transfers the teacher's pairwise document relationships wholesale, without any notion of which relationships matter for retrieval.
+
+Contrastive fine-tuning (NDCG@5 0.86) remains the better approach for this use case. It gives the model directed signal about what "relevant" means by using task-specific pairs. Distillation gives it the teacher's general notion of "similar," which isn't the same thing.
+
+### Training from scratch
+
+The last experiment: initialize from `bert-base-uncased` (a general language model with no sentence embedding training) and train a sentence embedding model from scratch on PubMed data. This gives full control over the architecture, pooling strategy, and training procedure.
+
+Architecture: BERT transformer + mean pooling (768-dim output). Trained on 10K MeSH-based pairs with the same contrastive loss used for fine-tuning. One epoch, batch size 32.
+
+The training converged (loss dropped to 1.17), but I couldn't properly evaluate it. The BERT model outputs 768-dim embeddings, and my Neon database (free tier, 512MB limit) was already full with 40K MiniLM embeddings at 384-dim. Storing another 40K embeddings at twice the size wasn't possible. A meaningful comparison requires both models' embeddings in the database so you can search against each one independently.
+
+The training itself was also ~4x slower than MiniLM (bert-base has 110M parameters vs MiniLM's 22M). For a production search system, starting from a large base model only makes sense if you need that extra capacity and have the storage and compute budget to support it. MiniLM's smaller architecture is a better starting point: faster to train, smaller embeddings, cheaper to index and search.
+
+## Production infrastructure
+
+Once the search quality was solid, I focused on making the system more production-ready.
+
+### Async DB and connection pooling
+
+The initial API used psycopg2, a synchronous Postgres driver. Every database call blocked the event loop, which defeats the purpose of FastAPI being async. I replaced it with asyncpg and a connection pool (configurable min/max connections). All endpoints now use `async with pool.acquire() as conn`, and connections are returned to the pool automatically. The pool is created in FastAPI's lifespan handler and cleaned up on shutdown.
+
+### Monitoring
+
+Prometheus scrapes the API's `/metrics` endpoint every 15 seconds. A Grafana dashboard auto-provisions on startup with panels for request rate, per-endpoint breakdown, search latency, error rate, and model status. The dashboard definition lives in version control, so it survives container restarts.
+
+### MLflow model registry
+
+The embedding pipeline now registers models as versioned artifacts in MLflow after every training or evaluation run. A registry management script handles promotion: you tag a specific version with the `@production` alias, and the API picks it up on next model load. This means swapping models doesn't require a code deploy. The API tries the registry first and falls back to downloading from HuggingFace if no registry model is available.
+
+### A/B testing
+
+To compare models in production, I added traffic routing. Set `AB_TEST_MODEL` and `AB_TEST_TRAFFIC` as environment variables, and a configurable percentage of search traffic gets routed to the treatment model instead of the default. Each response includes which model actually served it. Per-model latency and request counts are tracked in the Prometheus metrics, and a `/ab-results` endpoint gives you a summary of the comparison. The routing only applies when users don't explicitly choose a model, so it's transparent to API consumers who are already specifying one.
+
 ## What I'd change
 
-The sentence-transformers library loads the full PyTorch model at runtime. Exporting it to ONNX (a format optimized for inference rather than training) would cut both startup time and per-query latency. The API also encodes queries inline on the same server that handles requests, which you'd want to separate at any real scale. And even 50 hand-labeled query-document pairs would be more informative than the automated MeSH proxy. The proxy was good enough to pick a model, but I wouldn't trust it for fine-grained evaluation.
+The API encodes queries inline on the same server that handles requests. At any real scale you'd want to separate that out. Even 50 hand-labeled query-document pairs would be more informative than the automated MeSH proxy. The proxy was good enough to pick a model and measure fine-tuning gains, but I wouldn't trust it for fine-grained evaluation of re-ranking quality.
+
+Re-embedding 40K papers against a remote Postgres instance (Neon) took ~23 minutes because each row is an individual INSERT over the network. A bulk insert via `COPY` or multi-row VALUES would cut that to seconds.
 
 ## The stack
 
 Here's every piece and what it does:
 
 - **Airflow** schedules and runs the daily ingestion pipeline. It handles retries, backfills, and parallel task execution across the five MeSH categories.
-- **sentence-transformers** (HuggingFace) generates the embeddings. It wraps PyTorch models in an API that takes text in and gives vectors out. One line to encode a batch of abstracts.
+- **sentence-transformers** (HuggingFace) generates the embeddings and handles fine-tuning. Contrastive fine-tuning, cross-encoder re-ranking, and knowledge distillation all build on this library. **ONNX Runtime** provides optimized inference for production serving.
 - **PostgreSQL + pgvector** stores both the paper metadata and the embedding vectors. pgvector is an extension that adds vector column types and similarity search operators directly in Postgres, so you don't need a separate vector database.
 - **FastAPI** serves the search API. It handles query encoding, vector search, and filtering in a single request. FastAPI auto-generates interactive API docs (the Swagger UI at `/docs`), which made it easy to test and share.
-- **MLflow** tracks evaluation experiments. Every evaluation run logs its parameters, metrics, and results so I can compare models and track how scores change as the corpus grows.
+- **MLflow** tracks evaluation experiments and serves as a model registry. Models are registered as versioned artifacts after training, with alias-based promotion for zero-deploy model swaps.
 - **MCP (Model Context Protocol)** is a protocol that lets LLMs call external tools. The MCP server wraps the search API so Claude can query PubMed directly during a conversation, run searches, pull papers, and summarize findings.
-- **Docker Compose** runs the full stack locally: Postgres, Airflow, the API, all wired together. One `docker compose up` to get a working dev environment.
+- **Prometheus + Grafana** for monitoring. Prometheus scrapes the API's metrics endpoint, Grafana auto-provisions a dashboard showing request rates, latency, errors, and model status.
+- **Docker Compose** runs the full stack locally: Postgres, Airflow, MLflow, Prometheus, Grafana, and the API, all wired together. One `docker compose up` to get a working dev environment.
 - **GitHub Actions** runs 28 tests on every push: API endpoint tests, embedding pipeline tests, ingestion logic tests.
 - **Fly.io** hosts the production API. The container runs on a shared-CPU VM with 4GB RAM (enough to hold the MiniLM model in memory). **Neon** provides the production Postgres instance with pgvector enabled.
 
