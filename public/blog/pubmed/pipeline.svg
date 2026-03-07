@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="340" fill="#0f1117" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" fill="#e5e7eb" font-size="14" font-weight="600">Embedding + evaluation pipeline</text>
+
+  <!-- Papers in DB -->
+  <rect x="30" y="70" width="130" height="70" rx="6" fill="none" stroke="#34d399" stroke-width="1.5"/>
+  <text x="95" y="100" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="600">39,731 papers</text>
+  <text x="95" y="118" text-anchor="middle" fill="#9ca3af" font-size="10">Postgres</text>
+
+  <!-- Fork -->
+  <line x1="160" y1="105" x2="220" y2="75" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="160" y1="105" x2="220" y2="135" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- MiniLM -->
+  <rect x="225" y="50" width="150" height="50" rx="6" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="300" y="72" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="600">MiniLM-L6-v2</text>
+  <text x="300" y="88" text-anchor="middle" fill="#9ca3af" font-size="10">384-dim, general</text>
+
+  <!-- PubMedBERT -->
+  <rect x="225" y="115" width="150" height="50" rx="6" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="300" y="137" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="600">PubMedBERT</text>
+  <text x="300" y="153" text-anchor="middle" fill="#9ca3af" font-size="10">768-dim, biomedical</text>
+
+  <!-- Arrows to vector store -->
+  <line x1="375" y1="75" x2="440" y2="100" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="375" y1="140" x2="440" y2="115" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+  <!-- Vector column -->
+  <rect x="445" y="80" width="140" height="55" rx="6" fill="none" stroke="#34d399" stroke-width="1.5"/>
+  <text x="515" y="103" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="600">vector (untyped)</text>
+  <text x="515" y="120" text-anchor="middle" fill="#9ca3af" font-size="10">+ model_name</text>
+
+  <!-- Arrow to HNSW -->
+  <line x1="585" y1="107" x2="640" y2="107" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- HNSW indexes -->
+  <rect x="645" y="72" width="130" height="70" rx="6" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="710" y="97" text-anchor="middle" fill="#c4b5fd" font-size="11" font-weight="600">HNSW indexes</text>
+  <text x="710" y="113" text-anchor="middle" fill="#9ca3af" font-size="10">::vector(384)</text>
+  <text x="710" y="127" text-anchor="middle" fill="#9ca3af" font-size="10">::vector(768)</text>
+
+  <!-- Arrow to latency -->
+  <line x1="775" y1="107" x2="810" y2="107" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="855" y="104" text-anchor="middle" fill="#34d399" font-size="13" font-weight="700">3.9ms</text>
+  <text x="855" y="120" text-anchor="middle" fill="#9ca3af" font-size="10">p50 latency</text>
+
+  <!-- Evaluation section -->
+  <line x1="30" y1="195" x2="870" y2="195" stroke="#4b5563" stroke-width="0.5"/>
+  <text x="450" y="220" text-anchor="middle" fill="#e5e7eb" font-size="14" font-weight="600">MiniLM evaluation (39,731 papers)</text>
+
+  <!-- Results table -->
+  <!-- Header -->
+  <text x="250" y="255" text-anchor="end" fill="#9ca3af" font-size="11" font-weight="600">Metric</text>
+  <text x="500" y="255" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="600">MiniLM-L6-v2</text>
+  <line x1="150" y1="262" x2="650" y2="262" stroke="#4b5563" stroke-width="0.5"/>
+
+  <!-- NDCG@5 -->
+  <text x="250" y="282" text-anchor="end" fill="#9ca3af" font-size="11">NDCG@5</text>
+  <text x="500" y="282" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">0.83</text>
+
+  <!-- NDCG@10 -->
+  <text x="250" y="302" text-anchor="end" fill="#9ca3af" font-size="11">NDCG@10</text>
+  <text x="500" y="302" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">0.91</text>
+
+  <!-- Mean similarity -->
+  <text x="250" y="322" text-anchor="end" fill="#9ca3af" font-size="11">Mean similarity</text>
+  <text x="500" y="322" text-anchor="middle" fill="#e5e7eb" font-size="11">0.65</text>
+
+  <!-- PubMedBERT note -->
+  <text x="710" y="282" text-anchor="middle" fill="#6b7280" font-size="10" font-style="italic">PubMedBERT evaluated at</text>
+  <text x="710" y="298" text-anchor="middle" fill="#6b7280" font-size="10" font-style="italic">~10K papers only (early test)</text>
+</svg>
