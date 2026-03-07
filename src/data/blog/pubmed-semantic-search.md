@@ -88,11 +88,28 @@ I assumed PubMedBERT would win. It's a domain-specific model trained on biomedic
 
 I ran both models through the evaluation harness early in the project, when the corpus was around 10,000 papers. At that scale, MiniLM had slightly better MeSH overlap in its top-10 results, while PubMedBERT returned higher raw cosine similarity scores. But higher similarity is a property of the embedding space, not retrieval quality. Two vectors can be "closer together" in one model's space without the results being more relevant. What matters is whether the right papers end up at the top of the list.
 
-I went with MiniLM for the production deployment. It's faster (384-dim vectors are cheaper to compare than 768-dim), and the early evaluation suggested it was at least as good at retrieval. At the full 40K-paper corpus, it scores a mean NDCG@10 of 0.91 across my evaluation queries. Not bad for a general-purpose model on biomedical data.
+Based on those early results, I went with MiniLM for the production deployment. It was faster (384-dim vectors are cheaper to compare than 768-dim), and seemed at least as good at retrieval.
 
-The honest caveat: I never re-ran PubMedBERT at the full corpus size. Generating 768-dim embeddings for 40K papers takes a while, and by the time the backfill was done I'd already committed to MiniLM. So I can't make a clean apples-to-apples comparison at scale. The early results were suggestive, not conclusive.
+Then I went back and ran PubMedBERT at the full 40K-paper corpus. The early results were wrong.
 
-My best guess at why MiniLM holds up: it was trained on a massive corpus of sentence pairs where it learned which sentences mean the same thing and which don't. PubMedBERT knows more about biomedical language, but knowing what a paper is about is a different skill than knowing which paper is *more* relevant than another. For retrieval, calibration might matter more than domain comprehension. I'd want a proper comparison to say that with any confidence, though.
+| Query | MiniLM | PubMedBERT |
+|-------|--------|------------|
+| Creatine + muscle recovery | 1.00 | 1.00 |
+| Quitting alcohol | 0.59 | 0.65 |
+| HIIT benefits | 0.59 | 0.89 |
+| Vegetarian protein | 0.97 | 0.88 |
+| AI ethics in healthcare | 0.92 | 1.00 |
+| Sleep deprivation + cognition | 0.67 | 0.81 |
+| Gut microbiome + mental health | 0.87 | 0.95 |
+| Resistance training for elderly | 1.00 | 1.00 |
+| **Mean NDCG@5** | **0.83** | **0.90** |
+| **Mean NDCG@10** | **0.91** | **0.96** |
+
+PubMedBERT wins on 5 out of 8 queries and ties on 2. The biggest gap is HIIT: 0.59 vs 0.89. The only query where MiniLM is better is vegetarian protein (0.97 vs 0.88). At 10K papers, the corpus was too sparse for PubMedBERT's domain knowledge to matter. At 40K, with denser topic clusters, the specialist model pulls ahead.
+
+The lesson: don't evaluate at one corpus size and assume the results hold. Retrieval quality depends on what's in the index. A model that looks equivalent on a thin corpus can look very different on a thick one, because there are more borderline documents for it to rank correctly or incorrectly.
+
+I'm keeping MiniLM in production for now. It's half the storage, faster to index and search, and 0.83 NDCG@5 is solid. But if I were optimizing for quality over cost, the data says PubMedBERT is the better model for this domain.
 
 ## Architecture
 
