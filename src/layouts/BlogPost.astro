@@ -106,18 +106,15 @@ const showToc = headings.filter((h) => h.depth <= 3).length > 2;
 
   @media (min-width: 80rem) {
     .post-layout.has-toc {
-      display: grid;
-      grid-template-columns: minmax(0, 48rem) 14rem;
-      gap: 3rem;
-    }
-
-    :global(main:has(.has-toc)) {
-      max-width: calc(48rem + 14rem + 3rem);
+      position: relative;
     }
 
     .toc-sidebar {
       display: block;
-      padding-top: 0.5rem;
+      position: absolute;
+      left: calc(100% + 2rem);
+      top: 0;
+      width: 14rem;
     }
   }
 </style>
