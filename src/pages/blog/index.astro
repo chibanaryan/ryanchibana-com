@@ -17,36 +17,43 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 ---
 
 <BaseLayout title="Blog — Ryan Chibana" description="Blog posts by Ryan Chibana">
-  <h1>Blog</h1>
+  <div class="blog-layout">
+    <div class="blog-content">
+      <h1>Blog</h1>
 
-  {sortedTags.length > 0 && (
-    <div class="tag-filters">
-      <button class="tag-btn active" data-tag="all">All ({posts.length})</button>
-      {sortedTags.map(([tag, count]) => (
-        <button class="tag-btn" data-tag={tag}>{tag} ({count})</button>
-      ))}
+      <div class="post-list">
+        {posts.length === 0 ? (
+          <p>No posts yet.</p>
+        ) : (
+          posts.map((post) => (
+            <div class="post-item" data-tags={JSON.stringify(post.data.tags ?? [])}>
+              <PostCard
+                id={post.id}
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                tags={post.data.tags}
+              />
+            </div>
+          ))
+        )}
+      </div>
+
+      <p class="no-results" style="display:none;">No posts match this filter.</p>
     </div>
-  )}
 
-  <div class="post-list">
-    {posts.length === 0 ? (
-      <p>No posts yet.</p>
-    ) : (
-      posts.map((post) => (
-        <div class="post-item" data-tags={JSON.stringify(post.data.tags ?? [])}>
-          <PostCard
-            id={post.id}
-            title={post.data.title}
-            description={post.data.description}
-            pubDate={post.data.pubDate}
-            tags={post.data.tags}
-          />
-        </div>
-      ))
+    {sortedTags.length > 0 && (
+      <aside class="tag-sidebar">
+        <nav class="tag-filters">
+          <div class="filter-title">Categories</div>
+          <button class="tag-btn active" data-tag="all">All ({posts.length})</button>
+          {sortedTags.map(([tag, count]) => (
+            <button class="tag-btn" data-tag={tag}>{tag} ({count})</button>
+          ))}
+        </nav>
+      </aside>
     )}
   </div>
-
-  <p class="no-results" style="display:none;">No posts match this filter.</p>
 </BaseLayout>
 
 <script>
@@ -86,40 +93,99 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
     margin-bottom: 1rem;
   }
 
+  .blog-layout {
+    position: relative;
+  }
+
+  .tag-sidebar {
+    display: none;
+  }
+
   .tag-filters {
+    position: sticky;
+    top: 2rem;
     display: flex;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .filter-title {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.4rem;
   }
 
   .tag-btn {
     font-family: var(--font-body);
     font-size: 0.8rem;
     background: none;
-    border: 1px solid var(--color-border);
+    border: none;
     color: var(--color-text-muted);
-    padding: 0.25rem 0.6rem;
-    border-radius: 3px;
+    padding: 0.15rem 0;
     cursor: pointer;
-    transition: all 0.15s;
+    text-align: left;
+    transition: color 0.15s;
   }
 
   .tag-btn:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
+    color: var(--color-text);
   }
 
   .tag-btn.active {
-    background: rgba(184, 90, 58, 0.08);
-    border-color: var(--color-accent);
     color: var(--color-accent);
   }
 
   .no-results {
     color: var(--color-text-muted);
     padding: 2rem 0;
+  }
+
+  @media (min-width: 80rem) {
+    .tag-sidebar {
+      display: block;
+      position: absolute;
+      left: calc(100% + 2rem);
+      top: 0;
+      width: 14rem;
+    }
+  }
+
+  /* Show inline filters on narrow screens */
+  @media (max-width: 79.99rem) {
+    .tag-sidebar {
+      display: block;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .tag-filters {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      position: static;
+    }
+
+    .filter-title {
+      display: none;
+    }
+
+    .tag-btn {
+      border: 1px solid var(--color-border);
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+    }
+
+    .tag-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .tag-btn.active {
+      background: rgba(184, 90, 58, 0.08);
+      border-color: var(--color-accent);
+    }
   }
 </style>
