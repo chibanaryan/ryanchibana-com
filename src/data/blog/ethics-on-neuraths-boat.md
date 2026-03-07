@@ -1,6 +1,6 @@
 ---
 title: "Ethics on Neurath's Boat"
-description: "Every major approach to teaching AI right from wrong recapitulates a centuries-old debate in moral philosophy. The theory that fits best is the one we've been ignoring."
+description: "The companies building AI are recapitulating debates Aristotle was having. He got the closest to an answer."
 pubDate: 2026-03-07T12:00:00-05:00
 tags: ["ai", "ethics", "philosophy"]
 ---
