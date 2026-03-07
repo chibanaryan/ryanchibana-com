@@ -37,7 +37,7 @@ The models end up more morally complex than the frameworks used to train them. T
 
 I keep coming back to the *Nicomachean Ethics* because I think Aristotle saw more of the problem than anyone who came after him.
 
-Phronesis, practical wisdom, can't be reduced to a rule or a calculation. It's the capacity to perceive what matters in a situation and respond well. It lets you integrate competing considerations and apply general principles without becoming a slave to them. As Aristotle puts it: "it is not possible to be good in the strict sense without practical wisdom, nor practically wise without moral virtue."
+Phronesis, practical wisdom, can't be reduced to a rule or a calculation. It's the capacity to perceive what matters in a situation and respond well. It lets you integrate competing considerations and apply general principles without becoming a slave to them.
 
 The doctrine of the mean reinforces this. Every virtue sits between two vices. Courage between cowardice and recklessness. The mean isn't a simple midpoint; it shifts depending on the situation, sometimes closer to one extreme than the other. A rigid rule can't do that. And a scoring system that just picks the highest-rated response can't either, because it collapses the contextual judgment into a single number.
 
