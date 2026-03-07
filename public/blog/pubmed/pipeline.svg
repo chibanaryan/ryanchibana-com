@@ -55,27 +55,27 @@
 
   <!-- Evaluation section -->
   <line x1="30" y1="195" x2="870" y2="195" stroke="#4b5563" stroke-width="0.5"/>
-  <text x="450" y="220" text-anchor="middle" fill="#e5e7eb" font-size="14" font-weight="600">MiniLM evaluation (39,731 papers)</text>
+  <text x="450" y="220" text-anchor="middle" fill="#e5e7eb" font-size="14" font-weight="600">Evaluation (39,731 papers)</text>
 
   <!-- Results table -->
   <!-- Header -->
   <text x="250" y="255" text-anchor="end" fill="#9ca3af" font-size="11" font-weight="600">Metric</text>
-  <text x="500" y="255" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="600">MiniLM-L6-v2</text>
-  <line x1="150" y1="262" x2="650" y2="262" stroke="#4b5563" stroke-width="0.5"/>
+  <text x="430" y="255" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="600">MiniLM-L6-v2</text>
+  <text x="600" y="255" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="600">PubMedBERT</text>
+  <line x1="150" y1="262" x2="700" y2="262" stroke="#4b5563" stroke-width="0.5"/>
 
   <!-- NDCG@5 -->
   <text x="250" y="282" text-anchor="end" fill="#9ca3af" font-size="11">NDCG@5</text>
-  <text x="500" y="282" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">0.83</text>
+  <text x="430" y="282" text-anchor="middle" fill="#e5e7eb" font-size="11">0.83</text>
+  <text x="600" y="282" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">0.90</text>
 
   <!-- NDCG@10 -->
   <text x="250" y="302" text-anchor="end" fill="#9ca3af" font-size="11">NDCG@10</text>
-  <text x="500" y="302" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">0.91</text>
+  <text x="430" y="302" text-anchor="middle" fill="#e5e7eb" font-size="11">0.91</text>
+  <text x="600" y="302" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">0.96</text>
 
   <!-- Mean similarity -->
   <text x="250" y="322" text-anchor="end" fill="#9ca3af" font-size="11">Mean similarity</text>
-  <text x="500" y="322" text-anchor="middle" fill="#e5e7eb" font-size="11">0.65</text>
-
-  <!-- PubMedBERT note -->
-  <text x="710" y="282" text-anchor="middle" fill="#6b7280" font-size="10" font-style="italic">PubMedBERT evaluated at</text>
-  <text x="710" y="298" text-anchor="middle" fill="#6b7280" font-size="10" font-style="italic">~10K papers only (early test)</text>
+  <text x="430" y="322" text-anchor="middle" fill="#e5e7eb" font-size="11">0.65</text>
+  <text x="600" y="322" text-anchor="middle" fill="#e5e7eb" font-size="11">0.67</text>
 </svg>
