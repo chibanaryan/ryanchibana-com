@@ -19,7 +19,7 @@ I'm most interested in ML platform and infrastructure engineering. The kind of w
 
 On the agentic AI side, building an MCP server at Block gave me a front-row seat to how LLMs can plug into real production systems. Not chatbots, but actual tool orchestration against live data. I've been presenting on multi-agent development and agentic workflows internally, and it's the area where I see the most rapid change happening right now.
 
-I've also become more deliberate about the "why" behind the work. I've seen enough companies up close to know that technical ambition and ethical purpose don't always coexist easily. I want to work on hard ML and AI infrastructure problems while also pushing toward something good for people. Those goals can be in tension, and I think being honest about that tension is more useful than pretending it doesn't exist.
+I've also become more deliberate about the "why" behind the work. Any company pursuing profit and growth is going to face ethical tensions, and I've been at enough of them to know those tensions matter. I want to work on hard ML and AI infrastructure problems somewhere that takes them seriously — in its mission and in its day-to-day priorities.
 
 ## Outside of work
 
