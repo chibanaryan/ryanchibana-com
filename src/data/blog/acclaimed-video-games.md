@@ -3,7 +3,7 @@ title: "Building AcclaimedVideoGames"
 description: "How a side project became a three-month engineering binge. Django, HTMX, and 875 commits later."
 pubDate: 2026-03-07T20:00:00-05:00
 tags: ["projects", "django", "web"]
-draft: true
+draft: false
 ---
 
 I'm always on the lookout for a good aggregated list of media. For any medium, games, films, albums, books, I want to know what the critics collectively think is worth my time. Most aggregation sites are shallow (averaged scores, reader polls), but AcclaimedVideoGames was different. It combines over 900 ranked lists from ~140 publications using a match-up based algorithm that actually handles the messiness of comparing ranked vs. unranked lists, platform-specific lists, and one-per-series restrictions. It was the most rigorous thing I'd found.
@@ -21,7 +21,7 @@ Django with server-side rendering, HTMX for dynamic interactions, Alpine.js for 
 I ripped out Vue and Bulma, built a client-side filtering system backed by IndexedDB, added a Wikipedia genre pipeline (IGDB's taxonomy is too coarse, so I scrape and normalize genres from Wikipedia infoboxes), integrated HowLongToBeat playtime data, added user accounts with played/want-to-play tracking and saved filters, built developer hierarchy pages, and took test coverage from near zero to complete. I also found a lot of performance wins in the IGDB metadata refresh pipeline and reorganized the site layout to consolidate everything into a single rankings page with complex filtering that still feels digestible.
 <video src="/blog/avg-demo.mp4" autoplay loop muted playsinline style="max-width:100%;height:auto;border-radius:6px;margin:1rem 0;"></video>
 
-The parts I'm most proud of are the filter components. The year grid heatmap was inspired by RateYourMusic's year filter, but I wanted something more responsive and more visual. You can drag-select a range of years and the heatmap updates instantly to show where the games concentrate. The faceted counts on every filter option resort and update in real time as you narrow things down, so you always know how many games match before you click. And the rank distribution chart gives you a sense of how the filtered results are distributed across the full ranking, which makes the data feel alive rather than just being a list you scroll through.
+The parts I'm most proud of are the filter components. The year grid heatmap was inspired by RateYourMusic's year filter, but I wanted something more responsive and more visual. You can drag-select a range of years and the heatmap updates instantly to show where the games concentrate. The faceted counts on every filter option resort and update in real time as you narrow things down, so you always know how many games match before you click. And the rank distribution chart gives you a sense of how the filtered results are distributed across the full ranking, which I think is more useful than just scrolling a list.
 
 <img src="/blog/avg-architecture.svg" alt="AcclaimedVideoGames architecture" class="diagram-thumb" />
 <div class="diagram-overlay" onclick="this.style.display='none'">
@@ -50,13 +50,13 @@ Eight agents is too many. The worktrees drift apart, rebasing is constant, and t
 
 In practice it felt closer to 4x than 8x. There's real wasted work. But the books refactor, rewriting tens of thousands of lines to extract a shared base model, abstract the templates, and build out a parallel books app, was done and correct within a couple of hours. The agents inferred which components should be broken out into a shared core versus kept app-specific, without that being in the PRD. Newer orchestration tools like Conductor are making this kind of coordination more manageable, but when I did it, it was mostly duct tape.
 
-The thing that stuck with me: I stopped thinking of myself as someone who writes code and started thinking of myself as someone who coordinates agents that write code. You review intent, architecture, test outcomes, not individual lines. For a hobby project, that works. Adapting it to a professional context with real risk requirements is harder, and I don't think anyone has fully figured it out yet. One thing I didn't expect: having access to these tools makes leaping into a totally different tech stack feel easy. I learned Django by shipping with it, not by studying it first. You miss some of the details that way, but the feedback of real results keeps you motivated and learning in a way that tutorials never did.
+I stopped thinking of myself as someone who writes code and started thinking of myself as someone who coordinates agents that write code. You review intent, architecture, test outcomes, not individual lines. For a hobby project, that works. Adapting it to a professional context with real risk requirements is harder, and I don't think anyone has fully figured it out yet. One thing I didn't expect: having access to these tools makes leaping into a totally different tech stack feel easy. I learned Django by shipping with it, not by studying it first. You miss some of the details that way, but seeing real results keeps you going.
 
 ## The Reddit post
 
 We posted the project to [r/gaming](https://www.reddit.com/r/gaming/comments/1qwjkqe/i_collected_over_900_greatest_games_lists_and/) and it took off: 5,300 upvotes, 1,300 comments, and a 93.2% upvote ratio — which is wild for a ranked list that basically no one is going to fully agree with. People argued about which games were ranked too high or too low, which is exactly what you want. It also got some gaming press coverage and a streamer did a video going through the rankings.
 
-It was cool to see something we'd been heads-down building for months actually get attention from people who saw the care we'd put into it — the data and the site.
+It was cool to see something we'd been grinding on for months actually get attention from people who saw the care we'd put into it.
 
 ## Why this project
 
@@ -66,4 +66,4 @@ It's also the most complete full-stack project I've shipped outside of work. I t
 
 There's something about having full ownership that makes the work addictive. No tickets, no sprint planning, just see a problem and fix it. There were nights I stayed up until 3am tinkering with it. When users reported bugs after the Reddit post, I often had them fixed within hours, sometimes minutes. That kind of iteration speed is hard to get anywhere else.
 
-Throughout this process I realized I really love thinking about UX. How to let the user carry out their intent with the fewest possible interactions. How to display data beautifully and usefully. That ended up being the most satisfying part of the whole project.
+Throughout this process I realized I really love thinking about UX. How to let the user carry out their intent with the fewest possible interactions. How to display data beautifully and usefully. I enjoyed that more than any other part of the project.
