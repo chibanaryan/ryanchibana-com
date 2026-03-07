@@ -1,7 +1,7 @@
 ---
 title: "Letting Philosophers Argue Through LLMs"
 description: "I contributed three new debate matchups to Silicon Symposium, a project that assigns philosophers to local LLMs and lets them go at it. Aquinas vs Hume on God. Early vs late Wittgenstein on language. Aristotle vs Nietzsche on ethics."
-pubDate: 2026-03-06T22:00:00-05:00
+pubDate: 2026-03-07T18:00:00-05:00
 tags: ["ai", "philosophy", "open-source"]
 draft: false
 ---
@@ -10,7 +10,7 @@ In a philosophy class, there's a game you play. You pick two thinkers who fundam
 
 Dima Timofeev built a project called [Silicon Symposium](https://github.com/CuriousDima/silicon-symposium) that automates this. It assigns each philosopher to a different local LLM running through Ollama, gives them system prompts that capture their voice and key ideas, and lets them go back and forth in a terminal UI built with Rich. The original matchup was Nietzsche (via Gemma) vs Heidegger (via GPT-OSS). He posted it on LinkedIn and invited contributions.
 
-![Silicon Symposium demo showing two philosophers debating in a terminal UI](https://github.com/CuriousDima/silicon-symposium/blob/main/data/demo.gif?raw=true)
+![Silicon Symposium demo showing two philosophers debating in a terminal UI](https://raw.githubusercontent.com/CuriousDima/silicon-symposium/main/data/demo.gif)
 
 I couldn't resist. Three matchups came to mind immediately, all chosen because the disagreements are real and deep:
 
