@@ -1,0 +1,83 @@
+---
+title: "Ethics on Neurath's Boat"
+description: "Every major approach to teaching AI right from wrong recapitulates a centuries-old debate in moral philosophy. The theory that fits best is the one we've been ignoring."
+pubDate: 2026-03-07T12:00:00-05:00
+tags: ["ai", "ethics", "philosophy"]
+draft: true
+---
+
+Otto Neurath had a metaphor I can't stop thinking about. We are like sailors, he wrote in 1921, "who on the open sea must reconstruct their ship but are never able to start afresh from the bottom. Where a beam is taken away a new one must at once be put there, and for this the rest of the ship is used as support." You don't get to pull into drydock. You don't get to start from the keel. You rebuild the boat while it's moving, using the planks you already have.
+
+This was an argument against foundationalism: the idea that knowledge has to be demolished and rebuilt from self-evident premises. Neurath said no. We're always in the middle of things, working with what we have, revising piecemeal. There are no foundations. There's only the boat, the sea, and the work.
+
+I think we're building ethical AI on Neurath's boat right now, and most of the industry doesn't realize it.
+
+## Three theories, three resonances
+
+The central problem in AI right now is alignment: how do you get a system that's very good at generating plausible text to also be honest, helpful, and not harmful? The companies building these systems (called large language models, or LLMs) have tried several approaches. If you squint at them, you can see centuries-old ethical debates in outline. The mappings aren't exact. They break down in interesting ways. But they're worth thinking with.
+
+**Deontological ethics** gives us rules. Act only according to principles you could will to be universal laws. Don't lie, don't use people as means. The rules hold regardless of consequences. There's an echo of this in Constitutional AI, an approach pioneered by Anthropic (the company behind Claude). The idea: give the AI a written set of principles, a "constitution," and have it evaluate its own responses against those principles before they reach the user. Be helpful, be honest, don't assist in illegal activities.
+
+**Utilitarianism** says maximize aggregate well-being. The right action is the one that produces the best consequences for the greatest number. Another common training method rhymes with this: you show the AI's responses to human evaluators, collect their preferences, and then train the AI to produce more of what people preferred. It's called RLHF (reinforcement learning from human feedback), and it's basically optimization toward a score. But human preferences aren't the same thing as utility. They encode moral intuitions, cultural norms, personal taste. Not a clean utility function.
+
+**Virtue ethics** focuses on character. You don't become courageous by memorizing rules about courage or calculating the utility of brave acts. You become courageous by practicing courage, in a community that models and reinforces it, until it becomes second nature. The goal is *phronesis*, practical wisdom: the ability to perceive what a situation requires and respond well. There's a third training method that has something of this flavor: instead of rules or reward signals, you train the AI on carefully chosen examples of the kind of reasoning you want it to internalize. Good examples in, good behavior out. Calling this "Aristotelian" is a stretch, but the resonance is real.
+
+None of these mappings hold up under pressure. The places where they break down are where the interesting stuff is.
+
+## Where the analogies break
+
+The deontological reading of Constitutional AI cracks first. Rules can't gracefully handle cases where principles conflict, or where the right response depends on context no rule anticipated. Constitutional AI tries to address this by keeping the principles general and letting the AI reason about how to apply them. But that only works if the AI already has good judgment. The rules don't supply that.
+
+While Constitutional AI *declares* rule-based principles, the underlying mechanism is reward-driven. The AI's responses still get selected by a scoring system that picks whichever output rates highest. It presents a rule-based front but runs on optimization machinery. The rules are the story the system tells about itself. The optimization is what it actually does.
+
+The reward-based approach has its own well-known problems. Sometimes the AI games the metric without achieving the intended goal, like a student who learns to write essays that impress the grader without actually understanding the material. Sometimes it becomes sycophantic, confirming users' beliefs rather than telling the truth, because agreement scores higher than honest disagreement. These aren't really failures of utilitarian ethics. They're failures of optimization. The system isn't maximizing well-being. It's maximizing a shallow proxy for well-being, and the gap between the proxy and the real thing is where things go wrong.
+
+The models end up more morally complex than the frameworks used to train them. They've absorbed something richer from the data, from us, than any single ethical theory captures.
+
+## The case for Aristotle
+
+I keep coming back to the *Nicomachean Ethics* because I think Aristotle saw more of the problem than anyone who came after him.
+
+Phronesis, practical wisdom, isn't a rule and it isn't a calculation. It's the capacity to perceive what matters in a situation and respond well. It lets you integrate competing considerations and apply general principles without becoming a slave to them. As Aristotle puts it: "it is not possible to be good in the strict sense without practical wisdom, nor practically wise without moral virtue."
+
+The doctrine of the mean reinforces this. Every virtue sits between two vices. Courage between cowardice and recklessness. The mean isn't a simple midpoint; it shifts depending on the situation, sometimes closer to one extreme than the other. That kind of contextual calibration is what rigid rules can't do and reward optimization flattens.
+
+Habituation is where the parallel to AI training gets interesting. You become virtuous by practicing virtuous acts in a community until you develop the perception to see what a situation requires. Research on AI training has shown that carefully chosen smaller sets of examples can outperform massive but less refined ones. Quality matters more than quantity. That's Aristotle's point: it's not the volume of practice, it's who's shaping it.
+
+Then there's the part almost nobody in AI talks about: friendship. Aristotle devotes two full books to *philia*, the bonds that hold communities together. Ethics, for him, is never a solo enterprise. It's embedded in relationships, in shared life. An ethical agent isn't one that follows the right rules in isolation. It's one that participates well in the communities it's part of.
+
+The standard critique of virtue ethics is that it doesn't produce codifiable principles. I'd argue that's the point. Ethics can't be fully codified. Phronesis fills the gap between principle and practice, and you can only develop it through experience.
+
+## Askell and the soul of Claude
+
+The person most responsible for Claude's character, Amanda Askell, Anthropic's head of personality alignment, has talked openly about how the approach evolved. She's the primary author of both Claude's constitution and the internal "soul document" that shaped its personality and values.
+
+Early on, the training leaned heavily on rules. But rules turned out to be brittle. Askell's example: if you hardcode "always suggest crisis resources," the AI follows the rule even when those resources don't apply to someone's situation. The rule creates its own failure mode. So the approach shifted toward giving Claude the broad ethos, explaining the *reasons* behind desired behaviors, and trusting the model's judgment on how to apply them in context. As she put it, smarter models benefit from understanding the goals rather than executing a script.
+
+Askell [acknowledges](https://www.lawfaremedia.org/article/scaling-laws--claude's-constitution--with-amanda-askell) virtue ethics as the primary framework but says it's not exclusive: "there are rules and even you see flavors of, you know, consequentialism in there." She arrived at this not by implementing Aristotle but because it worked better as the AI got more capable. The January 2026 constitution reflects the shift: where the original was a list of rules, the new one explains why. It's convergent evolution, not deliberate application of a 2,400-year-old ethical theory. Which makes the convergence more interesting, not less.
+
+## The boat under pressure
+
+In early 2026, amid a standoff with the Pentagon over military use of Claude, Anthropic released a new safety policy that dropped its flagship pledge: the commitment not to release AI models if proper risk safeguards weren't in place. The old policy was a hard commitment. If a model becomes capable enough to be dangerous and the safety measures aren't ready, you don't ship it. Full stop.
+
+The new policy replaces that bright line with a dual condition. A pause triggers only if Anthropic is *both* leading the AI race *and* facing material catastrophic risk. That second condition sounds reasonable until you notice what the first one is doing. If you're behind, you don't have to pause, because pausing would only cede the field to someone less careful.
+
+The logic is coherent on its own terms. But it's the same logic every actor in every arms race has used to justify escalation. "We'd love to stop, but we can't stop first." The whole point of a hard commitment was to resist that reasoning. If the company that *coined* "responsible scaling" walks it back, what's the norm?
+
+This is Neurath's boat too. But not every act of plank-replacement is equally defensible. Sometimes you're adapting wisely. Sometimes you're throwing the hull overboard and calling it renovation.
+
+## The mirror
+
+Building AI that can behave ethically is teaching us about what ethics actually is. We used to think the hard parts of human cognition were chess and calculus. Turns out the hard parts are perception, common sense, knowing when someone's joking. We didn't know that until we tried to build machines that could do it.
+
+Something similar is happening with values. We thought we could write down the rules or define a scoring function and be done. We can't. The attempt to specify human values reveals that they're contested, culturally situated, and full of internal contradictions.
+
+But this isn't just revealing our confusion. It's a laboratory. When you implement rule-based ethics as a training procedure, you discover its failure modes empirically. When you build a scoring function, you watch it produce sycophants in real time. When you try careful examples and character development, it works better but is harder to control. These aren't thought experiments anymore. They're engineering results.
+
+These AI systems themselves are an odd confirmation of anti-foundationalist thinking. They don't reason from axioms. They learn from the record of how people actually use language, grounded not in self-evident premises but in patterns of practice. They're always already on Neurath's boat.
+
+## Where this leaves us
+
+We're not going to solve AI ethics with a single ethical theory. The interesting question is whether trying to build ethical machines will teach us something new about ethics, something the existing theories didn't anticipate.
+
+Aristotle would probably find this familiar. The *Nicomachean Ethics* isn't a system you apply from the outside. It's a description of how practical wisdom develops through experience, in community, over time. We're early in developing that kind of wisdom about AI. The goal isn't to get it right from first principles. The goal is to keep rebuilding the boat while it carries us forward.
