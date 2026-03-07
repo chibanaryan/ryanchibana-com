@@ -11,7 +11,7 @@ I figured it was time to have a place to write things down, so here we are.
 
 Looking back, most of my work has been about building the data infrastructure that other systems depend on. At Yelp I spent five years building and scaling Kafka-based data pipelines that integrated internal databases with external platforms across sales and marketing. At Cruise, that shifted into ML infrastructure specifically, where I worked on scaling data generation pipelines for the primary AV trajectory planning model and migrating critical workflows to their internal ML platform. At Block, I built observability systems for compliance screening, including anomaly detection, Airflow ETL pipelines, and an MCP server that lets engineers query customer journeys through an LLM.
 
-The common thread is production data systems at scale, but increasingly the interesting problems sit at the intersection of data infrastructure and ML. There's a growing need for engineers who can build the production pipelines, feature stores, and serving infrastructure that ML models depend on. That's the space I want to keep moving deeper into.
+The common thread is production data systems at scale, but increasingly the interesting problems are where data infrastructure and ML meet. Someone has to build the production pipelines, feature stores, and serving infrastructure that ML models depend on. That's the space I want to keep moving deeper into.
 
 ## What I'm focused on now
 
@@ -19,7 +19,7 @@ I'm most interested in ML platform and infrastructure engineering. The kind of w
 
 On the agentic AI side, building an MCP server at Block gave me a front-row seat to how LLMs can plug into real production systems. Not chatbots, but actual tool orchestration against live data. I've been presenting on multi-agent development and agentic workflows internally, and it's the area where I see the most rapid change happening right now.
 
-I've also become more deliberate about the "why" behind the work. I've seen enough companies up close to know that technical ambition and ethical purpose don't always coexist easily. I want to work on the frontier of what's possible with ML and AI infrastructure while also pushing toward something genuinely good for people. Those goals can be in tension, and I think being honest about that tension is more useful than pretending it doesn't exist.
+I've also become more deliberate about the "why" behind the work. I've seen enough companies up close to know that technical ambition and ethical purpose don't always coexist easily. I want to work on hard ML and AI infrastructure problems while also pushing toward something good for people. Those goals can be in tension, and I think being honest about that tension is more useful than pretending it doesn't exist.
 
 ## Outside of work
 

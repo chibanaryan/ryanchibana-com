@@ -28,7 +28,7 @@ The early Wittgenstein of the *Tractatus* believed language was a logical pictur
 
 He came back. The later Wittgenstein of *Philosophical Investigations* dismantled nearly everything his younger self had built. Meaning isn't picturing, it's use. Language doesn't have a single, hidden logical structure; it's a collection of overlapping "language games" embedded in forms of life. The private, crystalline certainty of the *Tractatus* gives way to something messier, more social, more human.
 
-Having two different models play the two Wittgensteins produces something genuinely interesting. The early Wittgenstein's austere confidence clashing with the later Wittgenstein's patient, example-driven deconstruction of that confidence. It's a philosopher doing something almost nobody does: admitting he was wrong, and explaining exactly how.
+Having two different models play the two Wittgensteins is where it gets good. The early Wittgenstein's austere confidence clashing with the later Wittgenstein's patient, example-driven deconstruction of that confidence. It's a philosopher doing something almost nobody does: admitting he was wrong, and explaining exactly how.
 
 ## Aristotle vs Nietzsche, on ethics
 
