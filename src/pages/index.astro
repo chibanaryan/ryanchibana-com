@@ -1,62 +1,46 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
-import { getCollection } from 'astro:content';
-
-const posts = (await getCollection('blog'))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
 ---
 
 <BaseLayout title="Ryan Chibana" description="Senior software engineer at Block working on data infrastructure, observability, and compliance systems. Previously at Cruise, Yelp, and Epic.">
   <section class="hero">
     <h1>Hey, I'm Ryan.</h1>
     <p>
-      Senior software engineer at Block. I work on data infrastructure, observability, and compliance systems. Previously at Cruise, Yelp, and Epic. BS from Indiana University, MS from Georgia Tech.
+      I'm a senior software engineer based in Carmel, Indiana. I currently work at Block. Most of my career has been spent building production data infrastructure — pipelines, observability systems, and platform tooling that other teams depend on.
     </p>
-  </section>
 
-  {posts.length > 0 && (
-    <section class="recent-posts">
-      <h2>Recent Posts</h2>
-      {posts.map((post) => (
-        <PostCard
-          id={post.id}
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          tags={post.data.tags}
-        />
-      ))}
-      <p class="all-link">
-        <a href="/blog">All posts &rarr;</a>
-      </p>
-    </section>
-  )}
+    <p>
+      Before Block, I worked at Cruise on ML infrastructure for autonomous vehicles, and spent five years at Yelp building and scaling data pipelines. Before that, I was at Epic Systems. I studied CS at Indiana University and later completed a Master's at Georgia Tech in Interactive Intelligence.
+    </p>
+
+    <p>
+      I'm most interested in ML platform engineering and agentic AI systems. Outside of work, I play piano, guitar, and bass. I also enjoy reading and am a bit of a film buff.
+    </p>
+
+    <div class="links">
+      <a href="https://github.com/chibanaryan">GitHub</a>
+      <a href="https://www.linkedin.com/in/ryanchibana">LinkedIn</a>
+      <a href="mailto:chibana.ryan@gmail.com">Email</a>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .hero {
-    margin-bottom: 3rem;
-  }
-
   .hero h1 {
     font-size: 2.25rem;
     margin-bottom: 0.75rem;
   }
 
   .hero p {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--color-text-muted);
     max-width: 36rem;
+    line-height: 1.7;
   }
 
-  .recent-posts h2 {
-    margin-bottom: 0.5rem;
-  }
-
-  .all-link {
-    margin-top: 1rem;
+  .links {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
   }
 </style>
