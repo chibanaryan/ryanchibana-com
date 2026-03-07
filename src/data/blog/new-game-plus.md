@@ -19,11 +19,11 @@ I'm most interested in ML platform and infrastructure engineering. The kind of w
 
 On the agentic AI side, building an MCP server at Block gave me a front-row seat to how LLMs can plug into real production systems. Not chatbots, but actual tool orchestration against live data. I've been presenting on multi-agent development and agentic workflows internally, and it's the area where I see the most rapid change happening right now.
 
-I've also become more deliberate about the "why" behind the work. I've seen enough companies up close to know that technical ambition and ethical purpose don't always coexist easily. I want to work on the frontier of what's possible with ML and AI infrastructure while also pushing toward something that genuinely promotes the flourishing of all sentient life. Those goals can be in tension, and I think being honest about that tension is more useful than pretending it doesn't exist.
+I've also become more deliberate about the "why" behind the work. I've seen enough companies up close to know that technical ambition and ethical purpose don't always coexist easily. I want to work on the frontier of what's possible with ML and AI infrastructure while also pushing toward something genuinely good for people. Those goals can be in tension, and I think being honest about that tension is more useful than pretending it doesn't exist.
 
 ## Outside of work
 
-I play piano, guitar, and bass. I've played keys in a couple indie bands and have a background in classical piano (big Bach fan). I'm also a bit of a compulsive list-maker when it comes to media. I track and rank games, albums, films, books, and TV, which got out of hand enough that I built [AcclaimedVideoGames](https://www.acclaimedvideogames.com/) ([source](https://github.com/chibanaryan/acclaimed_video_games)), a Django/HTMX project that aggregates rankings from publications into unified lists of critically acclaimed games. I might share more on that here at some point.
+I play piano, guitar, and bass. I've played keys in a couple indie bands and have a background in classical piano (big Bach fan). I'm also a bit of a compulsive list-maker when it comes to media. I track and rank games, albums, films, books, and TV, which got out of hand enough that I built the site for [AcclaimedVideoGames](https://www.acclaimedvideogames.com/) ([source](https://github.com/chibanaryan/acclaimed_video_games)), a Django/HTMX project that aggregates rankings from publications into unified lists of critically acclaimed games. I might share more on that here at some point.
 
 ## This site
 
