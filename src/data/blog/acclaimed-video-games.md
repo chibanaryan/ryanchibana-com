@@ -8,7 +8,7 @@ draft: true
 
 I'm always on the lookout for a good aggregated list of media. For any medium, games, films, albums, books, I want to know what the critics collectively think is worth my time. Most aggregation sites are shallow (averaged scores, reader polls), but AcclaimedVideoGames was different. It combines over 900 ranked lists from ~140 publications using a match-up based algorithm that actually handles the messiness of comparing ranked vs. unranked lists, platform-specific lists, and one-per-series restrictions. It was the most rigorous thing I'd found.
 
-The site is James's project. He came up with the concept, gathered the data, and engineered the ranking algorithm and list generation pipeline. He's the data guy. Sean got the website set up as a Django app and had been maintaining it since early 2023.
+The creator was focused on the data side of the project — the ranking algorithm, the list curation, the statistical methodology — but didn't have the background to build a modern website for it. The site as it stood had been put together quickly by a friend, but that person could only commit a small amount of time, and eventually the project outgrew what had been built.
 
 When I saw a post on the site looking for a web developer, I thought it was a thread worth pulling on. A fun project, real data, a stack I wanted to learn more about. I didn't anticipate how involved I'd get. I took over web development in November 2025, figured I'd clean some things up, maybe improve the frontend. Instead I ended up rewriting most of the site over the next three months. 875 commits.
 
@@ -38,7 +38,7 @@ document.querySelector('.diagram-thumb').addEventListener('click', function() {
 });
 </script>
 
-James handles the data side: curating lists, engineering the ranking algorithm, generating import files. I handle the site.
+The creator handles the data side: curating lists, engineering the ranking algorithm, generating import files. I handle the site.
 
 ## Agentic engineering
 
@@ -54,9 +54,9 @@ The thing that stuck with me: I stopped thinking of myself as someone who writes
 
 ## The Reddit post
 
-James posted the project to [r/gaming](https://www.reddit.com/r/gaming/comments/1qwjkqe/i_collected_over_900_greatest_games_lists_and/) and it took off: 5,300 upvotes, 1,300 comments. People argued about which games were ranked too high or too low, which is exactly what you want. It also got some gaming press coverage and a streamer did a video going through the rankings.
+We posted the project to [r/gaming](https://www.reddit.com/r/gaming/comments/1qwjkqe/i_collected_over_900_greatest_games_lists_and/) and it took off: 5,300 upvotes, 1,300 comments, and a 93.2% upvote ratio — which is wild for a ranked list that basically no one is going to fully agree with. People argued about which games were ranked too high or too low, which is exactly what you want. It also got some gaming press coverage and a streamer did a video going through the rankings.
 
-James's post mentions "a web developer joining the project," which is me. It was cool to see something I'd been heads-down building for months actually get attention from people who cared about the data.
+It was cool to see something we'd been heads-down building for months actually get attention from people who saw the care we'd put into it — the data and the site.
 
 ## Why this project
 
