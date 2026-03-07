@@ -2,7 +2,7 @@
 title: "Building a semantic search engine over 40,000 PubMed papers"
 description: "Data ingestion, embedding pipelines, vector search, and a live API. An end-to-end ML infrastructure project from Airflow to deployment."
 pubDate: 2026-03-07T22:00:00-05:00
-tags: ["ml-infrastructure", "projects"]
+tags: ["ml-infrastructure", "projects", "open-source", "mcp"]
 draft: true
 ---
 

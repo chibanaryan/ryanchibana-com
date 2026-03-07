@@ -2,7 +2,7 @@
 title: "Building AcclaimedVideoGames"
 description: "How a side project became a three-month engineering binge. Django, HTMX, and 875 commits later."
 pubDate: 2026-03-07T20:00:00-05:00
-tags: ["projects", "django", "web"]
+tags: ["projects", "django", "web", "open-source"]
 draft: false
 ---
 
