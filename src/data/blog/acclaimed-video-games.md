@@ -54,7 +54,7 @@ I stopped thinking of myself as someone who writes code and started thinking of 
 
 ## The Reddit post
 
-We posted the project to [r/gaming](https://www.reddit.com/r/gaming/comments/1qwjkqe/i_collected_over_900_greatest_games_lists_and/) and it took off: 5,300 upvotes, 1,300 comments, and a 93.2% upvote ratio — which is wild for a ranked list that basically no one is going to fully agree with. People argued about which games were ranked too high or too low, which is exactly what you want. It also got some gaming press coverage and a streamer did a video going through the rankings.
+We posted the project to [r/gaming](https://www.reddit.com/r/gaming/comments/1qwjkqe/i_collected_over_900_greatest_games_lists_and/) and it took off: 5,300 upvotes, 1,300 comments, and a 93.2% upvote ratio — which is wild for a ranked list that basically no one is going to fully agree with. People argued about which games were ranked too high or too low, which is exactly what you want. It also got [press coverage](https://www.thegamer.com/after-the-collation-of-over-900-lists-breath-of-the-wild-was-just-crowned-the-best-game-ever/) and a [streamer did a video](https://www.youtube.com/watch?v=NVFs58iQp7Q) going through the rankings.
 
 It was cool to see something we'd been grinding on for months actually get attention from people who saw the care we'd put into it.
 
