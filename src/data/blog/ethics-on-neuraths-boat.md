@@ -3,7 +3,6 @@ title: "Ethics on Neurath's Boat"
 description: "Every major approach to teaching AI right from wrong recapitulates a centuries-old debate in moral philosophy. The theory that fits best is the one we've been ignoring."
 pubDate: 2026-03-07T12:00:00-05:00
 tags: ["ai", "ethics", "philosophy"]
-draft: true
 ---
 
 Otto Neurath had a metaphor I can't stop thinking about. We are like sailors, he wrote in 1921, "who on the open sea must reconstruct their ship but are never able to start afresh from the bottom. Where a beam is taken away a new one must at once be put there, and for this the rest of the ship is used as support." You don't get to pull into drydock. You don't get to start from the keel. You rebuild the boat while it's moving, using the planks you already have.
