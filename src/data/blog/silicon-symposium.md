@@ -10,8 +10,6 @@ In a philosophy class, there's a game you play. You pick two thinkers who fundam
 
 Dima Timofeev, someone I enjoyed working with at Cruise, built a project called [Silicon Symposium](https://github.com/CuriousDima/silicon-symposium) that automates this. It assigns each philosopher to a different local LLM running through Ollama, gives them system prompts that capture their voice and key ideas, and lets them go back and forth in a terminal UI built with Rich. The original matchup was Nietzsche (via Gemma) vs Heidegger (via GPT-OSS). He posted it on LinkedIn and invited contributions.
 
-![Silicon Symposium demo showing two philosophers debating in a terminal UI](https://raw.githubusercontent.com/CuriousDima/silicon-symposium/main/data/demo.gif)
-
 I couldn't resist. Three matchups came to mind immediately, all chosen because the disagreements are real and deep:
 
 ## Aquinas vs Hume, on God
