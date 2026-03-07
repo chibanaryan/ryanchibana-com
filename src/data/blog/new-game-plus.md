@@ -1,7 +1,7 @@
 ---
 title: "New Game+"
 description: "A quick intro — what I've been working on, where I'm headed, and why I made this site."
-pubDate: 2026-03-06
+pubDate: 2026-03-06T18:33:00-05:00
 tags: ["personal", "introduction"]
 ---
 

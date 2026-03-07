@@ -1,7 +1,7 @@
 ---
 title: "You Can't Outsource Accountability to a Bot"
 description: "An AI agent attacked an open source maintainer by name after he rejected its code. The incident is small, but what it reveals about our systems of trust is not."
-pubDate: 2026-03-06
+pubDate: 2026-03-06T19:19:00-05:00
 tags: ["ai", "open-source", "ethics"]
 ---
 
