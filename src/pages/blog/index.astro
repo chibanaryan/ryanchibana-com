@@ -109,6 +109,20 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
     gap: 0.35rem;
   }
 
+  @media (min-width: 80rem) {
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 1fr 10rem;
+      gap: 2rem;
+      margin-left: -6rem;
+      margin-right: -6rem;
+    }
+
+    .tag-sidebar {
+      display: block;
+    }
+  }
+
   .filter-title {
     font-family: var(--font-heading);
     font-size: 0.85rem;
@@ -142,15 +156,6 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
     padding: 2rem 0;
   }
 
-  @media (min-width: 80rem) {
-    .tag-sidebar {
-      display: block;
-      position: absolute;
-      left: calc(100% + 2rem);
-      top: 0;
-      width: 14rem;
-    }
-  }
 
   /* Show inline filters on narrow screens */
   @media (max-width: 79.99rem) {

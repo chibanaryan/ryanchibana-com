@@ -65,4 +65,10 @@ const currentPath = Astro.url.pathname;
   ul a.active {
     color: var(--color-accent);
   }
+
+  @media (min-width: 80rem) {
+    nav {
+      max-width: calc(var(--max-width) + 2rem + 10rem);
+    }
+  }
 </style>

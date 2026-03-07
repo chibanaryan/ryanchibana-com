@@ -7,15 +7,16 @@ interface Heading {
 
 interface Props {
   headings: Heading[];
+  title?: string;
 }
 
-const { headings } = Astro.props;
+const { headings, title } = Astro.props;
 const filtered = headings.filter((h) => h.depth <= 3);
 ---
 
 {filtered.length > 0 && (
   <nav class="toc" aria-label="Table of contents">
-    <div class="toc-title">On this page</div>
+    <a href="#" class="toc-title">{title || 'On this page'}</a>
     <ul>
       {filtered.map((h) => (
         <li class={h.depth === 3 ? 'toc-sub' : ''}>
@@ -28,7 +29,7 @@ const filtered = headings.filter((h) => h.depth <= 3);
 
 <script>
   function initToc() {
-    const links = document.querySelectorAll('.toc a');
+    const links = document.querySelectorAll('.toc ul a');
     const headings = Array.from(links).map((link) => {
       const id = link.getAttribute('href')?.slice(1);
       return id ? document.getElementById(id) : null;
@@ -74,6 +75,13 @@ const filtered = headings.filter((h) => h.depth <= 3);
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 0.75rem;
+    display: block;
+    text-decoration: none;
+  }
+
+  .toc-title:hover {
+    color: var(--color-accent);
+    text-decoration: none;
   }
 
   ul {
