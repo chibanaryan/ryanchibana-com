@@ -7,15 +7,16 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  robots?: string;
 }
 
-const { title, description = 'Ryan Chibana — personal site' } = Astro.props;
+const { title, description = 'Ryan Chibana — personal site', robots } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead title={title} description={description} robots={robots} />
   </head>
   <body>
     <Header />

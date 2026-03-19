@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found — Ryan Chibana"
+  description="The page you requested could not be found."
+  robots="noindex,follow"
+>
+  <section class="not-found">
+    <p class="eyebrow">404</p>
+    <h1>Page not found</h1>
+    <p>
+      That URL does not exist on this site anymore, or it may have moved.
+    </p>
+    <div class="links">
+      <a href="/">Go home</a>
+      <a href="/blog/">Browse the blog</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    max-width: 34rem;
+    padding: 4rem 0 5rem;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    margin-bottom: 0.75rem;
+  }
+
+  .not-found p {
+    color: var(--color-text-muted);
+    max-width: 30rem;
+  }
+
+  .links {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+ </style>
